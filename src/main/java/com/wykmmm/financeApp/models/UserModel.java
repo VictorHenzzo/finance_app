@@ -1,12 +1,21 @@
 package com.wykmmm.financeApp.models;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity()
+@Table(name = "users")
 public class UserModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String email;
     private String name;
+
+    public UserModel() {
+    }
 
     public UUID getId() {
         return id;
