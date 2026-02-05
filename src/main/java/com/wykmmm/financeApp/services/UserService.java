@@ -1,6 +1,8 @@
 package com.wykmmm.financeApp.services;
 
 import com.wykmmm.financeApp.data.dto.UserDto;
+import com.wykmmm.financeApp.exceptions.userExceptions.EmailAlreadyInUseException;
+import com.wykmmm.financeApp.exceptions.userExceptions.UserNotFoundException;
 import com.wykmmm.financeApp.models.UserModel;
 import com.wykmmm.financeApp.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,14 @@ public class UserService {
     }
 
     public UserDto getUserById(UUID id){
-        UserModel user = repository.findById(id).orElseThrow(
-                ()-> new RuntimeException("User not found with ID: " + id)
-        );
-
-        return mapUserToDto(user);
+        return mapUserToDto(getUser(id));
     }
 
     public UserDto registerUser(UserDto dto){
+        if(repository.existsByEmail(dto.getEmail())){
+            throw new EmailAlreadyInUseException("Email already in use");
+        }
+
         UserModel user = new UserModel();
         user.setEmail(dto.getEmail());
         user.setName(dto.getName());
@@ -33,10 +35,7 @@ public class UserService {
     }
 
     public UserDto updateUser(UserDto dto){
-        UUID id = dto.getId();
-        UserModel user = repository.findById(id).orElseThrow(
-                ()-> new RuntimeException("User not found with ID: " + id)
-        );
+        UserModel user = getUser( dto.getId());
 
         if(!Objects.equals(dto.getEmail(), user.getEmail())){
             user.setEmail(dto.getEmail());
@@ -48,10 +47,14 @@ public class UserService {
     }
 
     public void deleteUser(UUID id){
-        UserModel user = repository.findById(id).orElseThrow(
-                ()-> new RuntimeException("User not found with ID: " + id)
-        );
+        UserModel user = getUser(id);
         repository.delete(user);
+    }
+
+    private UserModel getUser(UUID id){
+      return  repository.findById(id).orElseThrow(
+                ()-> new UserNotFoundException("User not found with ID: " + id)
+        );
     }
 
     private UserDto mapUserToDto(UserModel model){
