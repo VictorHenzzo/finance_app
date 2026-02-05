@@ -1,4 +1,4 @@
-package com.wykmmm.financeApp.data.models;
+package com.wykmmm.financeApp.models;
 import java.util.UUID;
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.wykmmm.financeApp.data.models;
+package com.wykmmm.financeApp.models;
 
 import java.math.BigDecimal;
 import java.util.Date;

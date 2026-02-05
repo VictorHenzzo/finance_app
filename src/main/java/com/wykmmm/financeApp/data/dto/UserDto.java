@@ -1,9 +1,10 @@
-package com.wykmmm.financeApp.data.models;
+package com.wykmmm.financeApp.data.dto;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-public class UserModel {
+public class UserDto {
     private UUID id;
     private String email;
     private String name;
@@ -37,12 +38,12 @@ public class UserModel {
         if(o == null || getClass() != o.getClass()) {
             return false;
         }
-        UserModel userModel = (UserModel) o;
-        return Objects.equals(getId(), userModel.getId()) && Objects.equals(getEmail(),
-                                                                            userModel.getEmail()
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(getId(), userDto.getId()) && Objects.equals(getEmail(),
+                                                                          userDto.getEmail()
         ) && Objects.equals(
                 getName(),
-                userModel.getName()
+                userDto.getName()
         );
     }
 
