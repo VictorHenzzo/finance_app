@@ -10,7 +10,6 @@ public class UserAccount {
     private BigDecimal balance;
     private String financialInstitutionId;
 
-
     public UUID getId() {
         return id;
     }

@@ -5,6 +5,8 @@ import com.wykmmm.financeApp.exceptions.userExceptions.EmailAlreadyInUseExceptio
 import com.wykmmm.financeApp.exceptions.userExceptions.UserNotFoundException;
 import com.wykmmm.financeApp.models.UserModel;
 import com.wykmmm.financeApp.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -13,17 +15,21 @@ import java.util.UUID;
 @Service
 public class UserService {
     private final UserRepository repository;
+    Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public UserService(UserRepository repository) {
         this.repository = repository;
     }
 
-    public UserDto getUserById(UUID id){
+    public UserDto getUserById(UUID id) {
+        logger.info("Getting user by id: {}", id);
         return mapUserToDto(getUser(id));
     }
 
     public UserDto registerUser(UserDto dto){
+        logger.info("Registering new user");
         if(repository.existsByEmail(dto.getEmail())){
+            logger.info("Attempted to register user with existing email");
             throw new EmailAlreadyInUseException("Email already in use");
         }
 
@@ -36,17 +42,21 @@ public class UserService {
 
     public UserDto updateUser(UserDto dto){
         UserModel user = getUser( dto.getId());
+        String newName = dto.getName();
+        String newEmail = dto.getEmail();
 
-        if(!Objects.equals(dto.getEmail(), user.getEmail())){
+        if(newEmail != null && !Objects.equals(newEmail, user.getEmail())){
             user.setEmail(dto.getEmail());
         }
-        if(!Objects.equals(dto.getName(), user.getName())){
+        if(newName != null && !Objects.equals(newName, user.getName())){
             user.setName(dto.getName());
         }
+        logger.info("Updating user");
         return mapUserToDto(repository.save(user));
     }
 
     public void deleteUser(UUID id){
+        logger.info("Deleting user: {}", id);
         UserModel user = getUser(id);
         repository.delete(user);
     }
