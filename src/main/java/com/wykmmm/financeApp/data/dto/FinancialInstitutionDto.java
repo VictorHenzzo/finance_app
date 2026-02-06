@@ -3,10 +3,10 @@ package com.wykmmm.financeApp.data.dto;
 import java.util.Objects;
 import java.util.UUID;
 
-public class UserDto {
+public class FinancialInstitutionDto {
     private UUID id;
-    private String email;
     private String name;
+    private String iconUrl;
 
     public UUID getId() {
         return id;
@@ -14,14 +14,6 @@ public class UserDto {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getName() {
@@ -32,22 +24,31 @@ public class UserDto {
         this.name = name;
     }
 
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if(o == null || getClass() != o.getClass()) {
             return false;
         }
-        UserDto userDto = (UserDto) o;
-        return Objects.equals(getId(), userDto.getId()) && Objects.equals(getEmail(),
-                                                                          userDto.getEmail()
-        ) && Objects.equals(
-                getName(),
-                userDto.getName()
+        FinancialInstitutionDto that = (FinancialInstitutionDto) o;
+        return Objects.equals(
+                getId(),
+                that.getId()
+        ) && Objects.equals(getName(), that.getName()) && Objects.equals(
+                getIconUrl(),
+                that.getIconUrl()
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmail(), getName());
+        return Objects.hash(getId(), getName(), getIconUrl());
     }
 }

@@ -1,8 +1,14 @@
 package com.wykmmm.financeApp.models;
+import jakarta.persistence.*;
+
 import java.util.UUID;
 import java.util.Objects;
 
-public class FinancialInstitution {
+@Entity()
+@Table(name = "financial_institution")
+public class FinancialInstitutionModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String name;
     private String iconUrl;
@@ -36,7 +42,7 @@ public class FinancialInstitution {
         if(o == null || getClass() != o.getClass()) {
             return false;
         }
-        FinancialInstitution that = (FinancialInstitution) o;
+        FinancialInstitutionModel that = (FinancialInstitutionModel) o;
         return Objects.equals(
                 getId(),
                 that.getId()
