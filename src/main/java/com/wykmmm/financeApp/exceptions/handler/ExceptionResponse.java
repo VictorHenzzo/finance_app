@@ -1,4 +1,4 @@
-package com.wykmmm.financeApp.exceptions;
+package com.wykmmm.financeApp.exceptions.handler;
 
 import java.util.Date;
 

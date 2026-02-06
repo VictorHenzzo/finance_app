@@ -1,7 +1,7 @@
-package com.wykmmm.financeApp.exceptions;
+package com.wykmmm.financeApp.exceptions.handler;
 
-import com.wykmmm.financeApp.exceptions.userExceptions.EmailAlreadyInUseException;
-import com.wykmmm.financeApp.exceptions.userExceptions.UserNotFoundException;
+import com.wykmmm.financeApp.exceptions.DomainException;
+import com.wykmmm.financeApp.exceptions.ResourceNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,18 +20,17 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(exception,HttpStatus.INTERNAL_SERVER_ERROR,request);
     }
 
-
-    @ExceptionHandler(EmailAlreadyInUseException.class)
-    public ResponseEntity<Object> handleEmailAlreadyInUseException(
-            EmailAlreadyInUseException exception,
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<Object> handleDomainException(
+            DomainException exception,
             WebRequest request
     ){
         return buildErrorResponse(exception,HttpStatus.BAD_REQUEST,request);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(
-            UserNotFoundException exception,
+    @ExceptionHandler(ResourceNotFound.class)
+    public ResponseEntity<Object> handleResourceNotFoundException(
+            ResourceNotFound exception,
             WebRequest request
     ){
         return buildErrorResponse(exception,HttpStatus.NOT_FOUND,request);

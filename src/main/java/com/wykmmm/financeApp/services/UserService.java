@@ -1,8 +1,8 @@
 package com.wykmmm.financeApp.services;
 
 import com.wykmmm.financeApp.data.dto.UserDto;
-import com.wykmmm.financeApp.exceptions.userExceptions.EmailAlreadyInUseException;
-import com.wykmmm.financeApp.exceptions.userExceptions.UserNotFoundException;
+import com.wykmmm.financeApp.exceptions.DomainException;
+import com.wykmmm.financeApp.exceptions.ResourceNotFound;
 import com.wykmmm.financeApp.models.UserModel;
 import com.wykmmm.financeApp.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class UserService {
         logger.info("Registering new user");
         if(repository.existsByEmail(dto.getEmail())){
             logger.info("Attempted to register user with existing email");
-            throw new EmailAlreadyInUseException("Email already in use");
+            throw new DomainException("Email already in use");
         }
 
         UserModel user = new UserModel();
@@ -63,7 +63,7 @@ public class UserService {
 
     private UserModel getUser(UUID id){
       return  repository.findById(id).orElseThrow(
-                ()-> new UserNotFoundException("User not found with ID: " + id)
+                ()-> new ResourceNotFound("User not found with ID: " + id)
         );
     }
 
