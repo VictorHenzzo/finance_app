@@ -1,6 +1,7 @@
 package com.wykmmm.financeApp.services;
 
 import com.wykmmm.financeApp.data.dto.UserDto;
+import com.wykmmm.financeApp.data.mappers.UserMapper;
 import com.wykmmm.financeApp.exceptions.DomainException;
 import com.wykmmm.financeApp.exceptions.ResourceNotFound;
 import com.wykmmm.financeApp.models.UserModel;
@@ -15,15 +16,18 @@ import java.util.UUID;
 @Service
 public class UserService {
     private final UserRepository repository;
+    private final UserMapper mapper;
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public UserService(UserRepository repository) {
+
+    public UserService(UserRepository repository,UserMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     public UserDto getUserById(UUID id) {
         logger.info("Getting user by id: {}", id);
-        return mapUserToDto(getUser(id));
+        return mapper.toDto(getUser(id));
     }
 
     public UserDto registerUser(UserDto dto){
@@ -33,11 +37,9 @@ public class UserService {
             throw new DomainException("Email already in use");
         }
 
-        UserModel user = new UserModel();
-        user.setEmail(dto.getEmail());
-        user.setName(dto.getName());
+        UserModel user = mapper.toModel(dto);
         UserModel result = repository.save(user);
-        return mapUserToDto(result);
+        return mapper.toDto(result);
     }
 
     public UserDto updateUser(UserDto dto){
@@ -52,7 +54,7 @@ public class UserService {
             user.setName(dto.getName());
         }
         logger.info("Updating user");
-        return mapUserToDto(repository.save(user));
+        return mapper.toDto(repository.save(user));
     }
 
     public void deleteUser(UUID id){
@@ -65,13 +67,5 @@ public class UserService {
       return  repository.findById(id).orElseThrow(
                 ()-> new ResourceNotFound("User not found with ID: " + id)
         );
-    }
-
-    private UserDto mapUserToDto(UserModel model){
-        UserDto dto =new UserDto();
-        dto.setId(model.getId());
-        dto.setName(model.getName());
-        dto.setEmail(model.getEmail());
-        return dto;
     }
 }

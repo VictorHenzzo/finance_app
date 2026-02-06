@@ -1,9 +1,12 @@
 package com.wykmmm.financeApp.services;
 
 import com.wykmmm.financeApp.data.dto.FinancialInstitutionDto;
+import com.wykmmm.financeApp.data.mappers.FinancialInstitutionMapper;
 import com.wykmmm.financeApp.exceptions.ResourceNotFound;
 import com.wykmmm.financeApp.models.FinancialInstitutionModel;
 import com.wykmmm.financeApp.repositories.FinancialInstitutionRepository;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,34 +18,32 @@ import java.util.UUID;
 @Service
 public class FinancialInstitutionService {
     private final FinancialInstitutionRepository repository;
+    private final FinancialInstitutionMapper mapper;
     Logger logger = LoggerFactory.getLogger(FinancialInstitutionService.class);
 
-    public FinancialInstitutionService(FinancialInstitutionRepository repository) {
+    public FinancialInstitutionService(FinancialInstitutionRepository repository,FinancialInstitutionMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     public FinancialInstitutionDto getById(UUID id) {
         logger.info("Getting institution by id: {}", id);
-        return mapToDto(getInstitution(id));
+        return mapper.toDto(getInstitution(id));
     }
 
     public List<FinancialInstitutionDto> getAll() {
         logger.info("Getting all institutions");
 
         return repository.findAll().stream()
-                            .map(this::mapToDto)
+                            .map(mapper::toDto)
                             .toList();
 
     }
 
     public FinancialInstitutionDto register(FinancialInstitutionDto dto){
         logger.info("Registering new institution");
-
-        FinancialInstitutionModel model = new FinancialInstitutionModel();
-        model.setName(dto.getName());
-        model.setIconUrl(dto.getIconUrl());
-        FinancialInstitutionModel result = repository.save(model);
-        return mapToDto(result);
+        FinancialInstitutionModel model = mapper.toModel(dto);
+        return mapper.toDto(repository.save(model));
     }
 
     public FinancialInstitutionDto update(FinancialInstitutionDto dto){
@@ -57,7 +58,7 @@ public class FinancialInstitutionService {
             institution.setName(dto.getName());
         }
         logger.info("Updating institution");
-        return mapToDto(repository.save(institution));
+        return mapper.toDto(repository.save(institution));
     }
 
     public void delete(UUID id){
@@ -71,13 +72,4 @@ public class FinancialInstitutionService {
                 ()-> new ResourceNotFound("Financial institution not found with ID: " + id)
         );
     }
-
-    private FinancialInstitutionDto mapToDto(FinancialInstitutionModel model){
-        FinancialInstitutionDto dto =new FinancialInstitutionDto();
-        dto.setId(model.getId());
-        dto.setName(model.getName());
-        dto.setIconUrl(model.getIconUrl());
-        return dto;
-    }
 }
-
