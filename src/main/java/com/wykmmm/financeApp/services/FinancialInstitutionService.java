@@ -5,8 +5,6 @@ import com.wykmmm.financeApp.data.mappers.FinancialInstitutionMapper;
 import com.wykmmm.financeApp.exceptions.ResourceNotFound;
 import com.wykmmm.financeApp.models.FinancialInstitutionModel;
 import com.wykmmm.financeApp.repositories.FinancialInstitutionRepository;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
