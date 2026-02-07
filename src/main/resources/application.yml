@@ -11,3 +11,8 @@ spring:
       ddl-auto: none
     show-sql: false
     open-in-view: false
+
+logging:
+  level:
+    root: DEBUG
+    com.wykmmam: DEBUG
