@@ -1,12 +1,22 @@
 package com.wykmmm.financeApp.models;
+import jakarta.persistence.*;
+
 import java.util.Objects;
 import java.util.UUID;
 
-public class TransactionCategory {
+@Entity
+@Table(name = "transaction_category")
+public class TransactionCategoryModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private UUID parentId;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String icon;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "category_type")
     private CategoryType type;
 
     public UUID getId() {
@@ -54,7 +64,7 @@ public class TransactionCategory {
         if(o == null || getClass() != o.getClass()) {
             return false;
         }
-        TransactionCategory that = (TransactionCategory) o;
+        TransactionCategoryModel that = (TransactionCategoryModel) o;
         return Objects.equals(getId(), that.getId()) && Objects.equals(getParentId(),
                                                                        that.getParentId()
         ) && Objects.equals(
