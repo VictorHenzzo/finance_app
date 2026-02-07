@@ -1,14 +1,14 @@
-package com.wykmmm.financeApp.models;
+package com.wykmmm.financeApp.data.dto;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-public class UserAccount {
+public class UserAccountDto {
     private UUID id;
-    private String userId;
+    private UUID userId;
     private BigDecimal balance;
-    private String financialInstitutionId;
+    private UUID financialInstitutionId;
 
     public UUID getId() {
         return id;
@@ -18,11 +18,11 @@ public class UserAccount {
         this.id = id;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
@@ -34,11 +34,11 @@ public class UserAccount {
         this.balance = balance;
     }
 
-    public String getFinancialInstitutionId() {
+    public UUID getFinancialInstitutionId() {
         return financialInstitutionId;
     }
 
-    public void setFinancialInstitutionId(String financialInstitutionId) {
+    public void setFinancialInstitutionId(UUID financialInstitutionId) {
         this.financialInstitutionId = financialInstitutionId;
     }
 
@@ -47,7 +47,7 @@ public class UserAccount {
         if(o == null || getClass() != o.getClass()) {
             return false;
         }
-        UserAccount that = (UserAccount) o;
+        UserAccountDto that = (UserAccountDto) o;
         return Objects.equals(
                 getId(),
                 that.getId()
