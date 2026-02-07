@@ -1,5 +1,7 @@
 package com.wykmmm.financeApp.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +18,7 @@ public class TransactionCategoryDto {
     private String name;
     private String icon;
     private CategoryType type;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<TransactionCategoryDto> subcategories;
 
     public UUID getId() {

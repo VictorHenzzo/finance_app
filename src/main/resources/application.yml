@@ -14,5 +14,5 @@ spring:
 
 logging:
   level:
-    root: DEBUG
-    com.wykmmam: DEBUG
+    root: INFO
+    com.wykmmam: INFO
