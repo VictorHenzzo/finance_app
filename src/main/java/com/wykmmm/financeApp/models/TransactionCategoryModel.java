@@ -1,5 +1,7 @@
 package com.wykmmm.financeApp.models;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -17,6 +19,7 @@ public class TransactionCategoryModel {
     private String icon;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "category_type")
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private CategoryType type;
 
     public UUID getId() {
